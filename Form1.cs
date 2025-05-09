@@ -19,13 +19,14 @@ namespace QuickBMSBatchExtractor
         {
             InitializeComponent();
             txtInputFolder.TextChanged += txtInputFolder_TextChanged;
+            txtBmsScript.TextChanged += txtBmsScript_TextChanged;
         }
 
         private void btnSelectBmsScript_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
-                openFileDialog.Filter = "BMSÎÄ¼ş(*.bms)|*.bms";
+                openFileDialog.Filter = "BMSæ–‡ä»¶(*.bms)|*.bms";
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     bmsScriptPath = openFileDialog.FileName;
@@ -66,18 +67,18 @@ namespace QuickBMSBatchExtractor
                 availableFormats = extensions.OrderBy(x => x).ToList();
                 if (availableFormats.Count > 0)
                 {
-                    lblAvailableFormats.Text = $"¼ì²âµ½¸ñÊ½: {string.Join(", ", availableFormats)}";
-                    AppendToRichTextBox($"ÎÄ¼ş¼ĞÉ¨ÃèÍê³É£¬ÕÒµ½ÒÔÏÂ¸ñÊ½: {string.Join(", ", availableFormats)}\n");
+                    lblAvailableFormats.Text = $"æ£€æµ‹åˆ°æ ¼å¼: {string.Join(", ", availableFormats)}";
+                    AppendToRichTextBox($"æ–‡ä»¶å¤¹æ‰«æå®Œæˆï¼Œæ‰¾åˆ°ä»¥ä¸‹æ ¼å¼: {string.Join(", ", availableFormats)}\n");
                 }
                 else
                 {
-                    lblAvailableFormats.Text = "ÎÄ¼ş¼ĞÖĞÃ»ÓĞÎÄ¼ş";
-                    AppendToRichTextBox("ÎÄ¼ş¼ĞÖĞÃ»ÓĞÕÒµ½ÈÎºÎÎÄ¼ş\n");
+                    lblAvailableFormats.Text = "æ–‡ä»¶å¤¹ä¸­æ²¡æœ‰æ–‡ä»¶";
+                    AppendToRichTextBox("æ–‡ä»¶å¤¹ä¸­æ²¡æœ‰æ‰¾åˆ°ä»»ä½•æ–‡ä»¶\n");
                 }
             }
             catch (Exception ex)
             {
-                AppendToRichTextBox($"É¨ÃèÎÄ¼ş¼ĞÊ±³ö´í: {ex.Message}\n");
+                AppendToRichTextBox($"æ‰«ææ–‡ä»¶å¤¹æ—¶å‡ºé”™: {ex.Message}\n");
             }
         }
 
@@ -85,13 +86,13 @@ namespace QuickBMSBatchExtractor
         {
             if (string.IsNullOrEmpty(inputFolderPath))
             {
-                AppendToRichTextBox("ÇëÏÈÑ¡ÔñÎÄ¼ş¼Ğ\n");
+                AppendToRichTextBox("è¯·å…ˆé€‰æ‹©æ–‡ä»¶å¤¹\n");
                 return;
             }
 
             if (availableFormats.Count == 0)
             {
-                AppendToRichTextBox("ÎÄ¼ş¼ĞÖĞÃ»ÓĞ¿ÉÓÃµÄÎÄ¼ş¸ñÊ½\n");
+                AppendToRichTextBox("æ–‡ä»¶å¤¹ä¸­æ²¡æœ‰å¯ç”¨çš„æ–‡ä»¶æ ¼å¼\n");
                 return;
             }
 
@@ -101,7 +102,7 @@ namespace QuickBMSBatchExtractor
                 string extName = format.Substring(1).ToUpper() + " files";
                 fileTypes.Add($"{extName}|*{format}");
             }
-            fileTypes.Add("ËùÓĞÎÄ¼ş|*.*");
+            fileTypes.Add("æ‰€æœ‰æ–‡ä»¶|*.*");
 
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
@@ -113,7 +114,7 @@ namespace QuickBMSBatchExtractor
                 {
                     selectedFiles = openFileDialog.FileNames.ToList();
                     UpdateSelectedFilesLabel();
-                    AppendToRichTextBox($"ÒÑÑ¡Ôñ {selectedFiles.Count} ¸ö {Path.GetExtension(selectedFiles.First())} ÎÄ¼ş\n");
+                    AppendToRichTextBox($"å·²é€‰æ‹© {selectedFiles.Count} ä¸ª {Path.GetExtension(selectedFiles.First())} æ–‡ä»¶\n");
                 }
             }
         }
@@ -123,11 +124,11 @@ namespace QuickBMSBatchExtractor
             if (selectedFiles.Count > 0)
             {
                 string ext = Path.GetExtension(selectedFiles[0]);
-                lblSelectedFiles.Text = $"ÒÑÑ¡Ôñ {selectedFiles.Count} ¸ö {ext} ÎÄ¼ş";
+                lblSelectedFiles.Text = $"å·²é€‰æ‹© {selectedFiles.Count} ä¸ª {ext} æ–‡ä»¶";
             }
             else
             {
-                lblSelectedFiles.Text = "Î´Ñ¡ÔñÎÄ¼ş";
+                lblSelectedFiles.Text = "æœªé€‰æ‹©æ–‡ä»¶";
             }
         }
 
@@ -162,13 +163,13 @@ namespace QuickBMSBatchExtractor
                 {
                     try
                     {
-                        AppendToRichTextBox($"ÕıÔÚ´¦Àí: {Path.GetFileName(filePath)}\n");
+                        AppendToRichTextBox($"æ­£åœ¨å¤„ç†: {Path.GetFileName(filePath)}\n");
 
                         string quickbmsExecutable = GetQuickBMSExecutable(filePath);
                         string? directoryName = Path.GetDirectoryName(filePath);
                         if (directoryName == null)
                         {
-                            AppendToRichTextBox($"ÎŞ·¨»ñÈ¡ÎÄ¼ş¼ĞÂ·¾¶: {filePath}\n");
+                            AppendToRichTextBox($"æ— æ³•è·å–æ–‡ä»¶å¤¹è·¯å¾„: {filePath}\n");
                             continue;
                         }
 
@@ -194,7 +195,7 @@ namespace QuickBMSBatchExtractor
                         {
                             if (process == null)
                             {
-                                AppendToRichTextBox($"Æô¶¯½ø³ÌÊ§°Ü£¬´¦ÀíÎÄ¼ş {filePath} Ê±³ö´í\n");
+                                AppendToRichTextBox($"å¯åŠ¨è¿›ç¨‹å¤±è´¥ï¼Œå¤„ç†æ–‡ä»¶ {filePath} æ—¶å‡ºé”™\n");
                                 continue;
                             }
                             process.WaitForExit();
@@ -204,11 +205,11 @@ namespace QuickBMSBatchExtractor
                         int percentage = (int)((double)currentFiles / totalFiles * 100);
                         progress.Report(percentage);
 
-                        AppendToRichTextBox($"Íê³É: {Path.GetFileName(filePath)}\n");
+                        AppendToRichTextBox($"å®Œæˆ: {Path.GetFileName(filePath)}\n");
                     }
                     catch (Exception ex)
                     {
-                        AppendToRichTextBox($"´¦ÀíÎÄ¼ş {filePath} Ê±³ö´í: {ex.Message}\n");
+                        AppendToRichTextBox($"å¤„ç†æ–‡ä»¶ {filePath} æ—¶å‡ºé”™: {ex.Message}\n");
                     }
                 }
             });
@@ -218,20 +219,20 @@ namespace QuickBMSBatchExtractor
         {
             if (string.IsNullOrEmpty(bmsScriptPath))
             {
-                AppendToRichTextBox("ÇëÑ¡ÔñBMS½Å±¾\n");
+                AppendToRichTextBox("è¯·é€‰æ‹©BMSè„šæœ¬\n");
                 return;
             }
 
             if (selectedFiles.Count == 0)
             {
-                AppendToRichTextBox("ÇëÑ¡ÔñÒª½â°üµÄÎÄ¼ş\n");
+                AppendToRichTextBox("è¯·é€‰æ‹©è¦è§£åŒ…çš„æ–‡ä»¶\n");
                 return;
             }
 
             btnExtract.Enabled = false;
             progressBar.Value = 0;
             progressBar.Visible = true;
-            AppendToRichTextBox($"¿ªÊ¼½â°ü {selectedFiles.Count} ¸öÎÄ¼ş...\n");
+            AppendToRichTextBox($"å¼€å§‹è§£åŒ… {selectedFiles.Count} ä¸ªæ–‡ä»¶...\n");
 
             try
             {
@@ -242,11 +243,11 @@ namespace QuickBMSBatchExtractor
 
                 await ExtractFilesAsync(bmsScriptPath, selectedFiles, progress);
 
-                AppendToRichTextBox("½â°üÍê³É!\n");
+                AppendToRichTextBox("è§£åŒ…å®Œæˆ!\n");
             }
             catch (Exception ex)
             {
-                AppendToRichTextBox($"½â°ü¹ı³ÌÖĞ³ö´í: {ex.Message}\n");
+                AppendToRichTextBox($"è§£åŒ…è¿‡ç¨‹ä¸­å‡ºé”™: {ex.Message}\n");
             }
             finally
             {
@@ -264,8 +265,27 @@ namespace QuickBMSBatchExtractor
             }
             else if (!string.IsNullOrEmpty(inputPath) && !Directory.Exists(inputPath))
             {
-                AppendToRichTextBox("ÊäÈëµÄÎÄ¼ş¼ĞÂ·¾¶²»´æÔÚ£¬Çë¼ì²éºóÖØĞÂÊäÈë»òÑ¡Ôñ¡£\n");
+                AppendToRichTextBox("è¾“å…¥çš„æ–‡ä»¶å¤¹è·¯å¾„ä¸å­˜åœ¨ï¼Œè¯·æ£€æŸ¥åé‡æ–°è¾“å…¥æˆ–é€‰æ‹©ã€‚\n");
                 txtInputFolder.Text = "";
+            }
+        }
+
+        private void txtBmsScript_TextChanged(object? sender, EventArgs e)
+        {
+            string scriptPath = txtBmsScript.Text;
+            if (!string.IsNullOrEmpty(scriptPath) && File.Exists(scriptPath) && scriptPath.EndsWith(".bms", StringComparison.OrdinalIgnoreCase))
+            {
+                bmsScriptPath = scriptPath;
+                AppendToRichTextBox($"å·²è®¾ç½®BMSè„šæœ¬: {Path.GetFileName(scriptPath)}\n");
+            }
+            else if (!string.IsNullOrEmpty(scriptPath) && (!File.Exists(scriptPath) || !scriptPath.EndsWith(".bms", StringComparison.OrdinalIgnoreCase)))
+            {
+                AppendToRichTextBox("è¾“å…¥çš„BMSè„šæœ¬è·¯å¾„ä¸å­˜åœ¨æˆ–ä¸æ˜¯æœ‰æ•ˆçš„BMSæ–‡ä»¶ï¼Œè¯·æ£€æŸ¥åé‡æ–°è¾“å…¥æˆ–é€‰æ‹©ã€‚\n");
+                bmsScriptPath = "";
+            }
+            else
+            {
+                bmsScriptPath = "";
             }
         }
     }
