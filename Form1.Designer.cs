@@ -1,4 +1,4 @@
-﻿namespace QuickBMSBatchExtractor
+namespace QuickBMSBatchExtractor
 {
     partial class MainForm
     {
@@ -28,175 +28,182 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.lblBmsScript = new System.Windows.Forms.Label();
-            this.txtBmsScript = new System.Windows.Forms.TextBox();
-            this.btnSelectBmsScript = new System.Windows.Forms.Button();
-            this.lblInputFolder = new System.Windows.Forms.Label();
-            this.txtInputFolder = new System.Windows.Forms.TextBox();
-            this.btnSelectInputFolder = new System.Windows.Forms.Button();
-            this.lblAvailableFormats = new System.Windows.Forms.Label();
-            this.btnSelectFormat = new System.Windows.Forms.Button();
-            this.lblSelectedFiles = new System.Windows.Forms.Label();
-            this.btnExtract = new System.Windows.Forms.Button();
-            this.progressBar = new System.Windows.Forms.ProgressBar();
-            this.rtbFileNameInfo = new System.Windows.Forms.RichTextBox();
-            this.SuspendLayout();
+            lblBmsScript = new Label();
+            txtBmsScript = new TextBox();
+            btnSelectBmsScript = new Button();
+            lblInputFolder = new Label();
+            txtInputFolder = new TextBox();
+            btnSelectInputFolder = new Button();
+            lblAvailableFormats = new Label();
+            btnSelectFormat = new Button();
+            lblSelectedFiles = new Label();
+            btnExtract = new Button();
+            progressBar = new ProgressBar();
+            rtbFileNameInfo = new RichTextBox();
+            lblNoExtensionWarning = new Label();
+            SuspendLayout();
             // 
             // lblBmsScript
             // 
-            this.lblBmsScript.AutoSize = true;
-            this.lblBmsScript.Location = new System.Drawing.Point(14, 20);
-            this.lblBmsScript.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblBmsScript.Name = "lblBmsScript";
-            this.lblBmsScript.Size = new System.Drawing.Size(86, 17);
-            this.lblBmsScript.TabIndex = 0;
-            this.lblBmsScript.Text = "选择BMS脚本:";
+            lblBmsScript.AutoSize = true;
+            lblBmsScript.Location = new Point(14, 20);
+            lblBmsScript.Margin = new Padding(4, 0, 4, 0);
+            lblBmsScript.Name = "lblBmsScript";
+            lblBmsScript.Size = new Size(86, 17);
+            lblBmsScript.TabIndex = 0;
+            lblBmsScript.Text = "选择BMS脚本:";
             // 
             // txtBmsScript
             // 
-            this.txtBmsScript.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtBmsScript.Location = new System.Drawing.Point(104, 16);
-            this.txtBmsScript.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.txtBmsScript.Name = "txtBmsScript";
-            this.txtBmsScript.Size = new System.Drawing.Size(645, 23);
-            this.txtBmsScript.TabIndex = 1;
+            txtBmsScript.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            txtBmsScript.Location = new Point(104, 16);
+            txtBmsScript.Margin = new Padding(4);
+            txtBmsScript.Name = "txtBmsScript";
+            txtBmsScript.Size = new Size(645, 23);
+            txtBmsScript.TabIndex = 1;
             // 
             // btnSelectBmsScript
             // 
-            this.btnSelectBmsScript.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSelectBmsScript.Location = new System.Drawing.Point(756, 13);
-            this.btnSelectBmsScript.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.btnSelectBmsScript.Name = "btnSelectBmsScript";
-            this.btnSelectBmsScript.Size = new System.Drawing.Size(88, 30);
-            this.btnSelectBmsScript.TabIndex = 2;
-            this.btnSelectBmsScript.Text = "选择脚本";
-            this.btnSelectBmsScript.UseVisualStyleBackColor = true;
-            this.btnSelectBmsScript.Click += new System.EventHandler(this.btnSelectBmsScript_Click);
+            btnSelectBmsScript.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnSelectBmsScript.Location = new Point(756, 13);
+            btnSelectBmsScript.Margin = new Padding(4);
+            btnSelectBmsScript.Name = "btnSelectBmsScript";
+            btnSelectBmsScript.Size = new Size(88, 30);
+            btnSelectBmsScript.TabIndex = 2;
+            btnSelectBmsScript.Text = "选择脚本";
+            btnSelectBmsScript.UseVisualStyleBackColor = true;
+            btnSelectBmsScript.Click += btnSelectBmsScript_Click;
             // 
             // lblInputFolder
             // 
-            this.lblInputFolder.AutoSize = true;
-            this.lblInputFolder.Location = new System.Drawing.Point(14, 54);
-            this.lblInputFolder.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblInputFolder.Name = "lblInputFolder";
-            this.lblInputFolder.Size = new System.Drawing.Size(71, 17);
-            this.lblInputFolder.TabIndex = 3;
-            this.lblInputFolder.Text = "选择文件夹:";
+            lblInputFolder.AutoSize = true;
+            lblInputFolder.Location = new Point(14, 54);
+            lblInputFolder.Margin = new Padding(4, 0, 4, 0);
+            lblInputFolder.Name = "lblInputFolder";
+            lblInputFolder.Size = new Size(71, 17);
+            lblInputFolder.TabIndex = 3;
+            lblInputFolder.Text = "选择文件夹:";
             // 
             // txtInputFolder
             // 
-            this.txtInputFolder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtInputFolder.Location = new System.Drawing.Point(104, 50);
-            this.txtInputFolder.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.txtInputFolder.Name = "txtInputFolder";
-            this.txtInputFolder.Size = new System.Drawing.Size(645, 23);
-            this.txtInputFolder.TabIndex = 4;
+            txtInputFolder.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            txtInputFolder.Location = new Point(104, 50);
+            txtInputFolder.Margin = new Padding(4);
+            txtInputFolder.Name = "txtInputFolder";
+            txtInputFolder.Size = new Size(645, 23);
+            txtInputFolder.TabIndex = 4;
             // 
             // btnSelectInputFolder
             // 
-            this.btnSelectInputFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSelectInputFolder.Location = new System.Drawing.Point(756, 47);
-            this.btnSelectInputFolder.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.btnSelectInputFolder.Name = "btnSelectInputFolder";
-            this.btnSelectInputFolder.Size = new System.Drawing.Size(88, 30);
-            this.btnSelectInputFolder.TabIndex = 5;
-            this.btnSelectInputFolder.Text = "选择路径";
-            this.btnSelectInputFolder.UseVisualStyleBackColor = true;
-            this.btnSelectInputFolder.Click += new System.EventHandler(this.btnSelectInputFolder_Click);
+            btnSelectInputFolder.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnSelectInputFolder.Location = new Point(756, 47);
+            btnSelectInputFolder.Margin = new Padding(4);
+            btnSelectInputFolder.Name = "btnSelectInputFolder";
+            btnSelectInputFolder.Size = new Size(88, 30);
+            btnSelectInputFolder.TabIndex = 5;
+            btnSelectInputFolder.Text = "选择路径";
+            btnSelectInputFolder.UseVisualStyleBackColor = true;
+            btnSelectInputFolder.Click += btnSelectInputFolder_Click;
             // 
             // lblAvailableFormats
             // 
-            this.lblAvailableFormats.AutoSize = true;
-            this.lblAvailableFormats.Location = new System.Drawing.Point(14, 88);
-            this.lblAvailableFormats.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblAvailableFormats.Name = "lblAvailableFormats";
-            this.lblAvailableFormats.Size = new System.Drawing.Size(0, 17);
-            this.lblAvailableFormats.TabIndex = 6;
+            lblAvailableFormats.AutoSize = true;
+            lblAvailableFormats.Location = new Point(14, 105);
+            lblAvailableFormats.Margin = new Padding(4, 0, 4, 0);
+            lblAvailableFormats.Name = "lblAvailableFormats";
+            lblAvailableFormats.Size = new Size(0, 17);
+            lblAvailableFormats.TabIndex = 7;
             // 
             // btnSelectFormat
             // 
-            this.btnSelectFormat.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSelectFormat.Location = new System.Drawing.Point(756, 81);
-            this.btnSelectFormat.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.btnSelectFormat.Name = "btnSelectFormat";
-            this.btnSelectFormat.Size = new System.Drawing.Size(88, 30);
-            this.btnSelectFormat.TabIndex = 7;
-            this.btnSelectFormat.Text = "选择格式";
-            this.btnSelectFormat.UseVisualStyleBackColor = true;
-            this.btnSelectFormat.Click += new System.EventHandler(this.btnSelectFormat_Click);
+            btnSelectFormat.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnSelectFormat.Location = new Point(756, 102);
+            btnSelectFormat.Margin = new Padding(4);
+            btnSelectFormat.Name = "btnSelectFormat";
+            btnSelectFormat.Size = new Size(88, 30);
+            btnSelectFormat.TabIndex = 8;
+            btnSelectFormat.Text = "选择格式";
+            btnSelectFormat.UseVisualStyleBackColor = true;
+            btnSelectFormat.Click += btnSelectFormat_Click;
             // 
             // lblSelectedFiles
             // 
-            this.lblSelectedFiles.AutoSize = true;
-            this.lblSelectedFiles.Location = new System.Drawing.Point(14, 88);
-            this.lblSelectedFiles.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblSelectedFiles.Name = "lblSelectedFiles";
-            this.lblSelectedFiles.Size = new System.Drawing.Size(68, 17);
-            this.lblSelectedFiles.TabIndex = 8;
-            this.lblSelectedFiles.Text = "未选择文件";
+            lblSelectedFiles.AutoSize = true;
+            lblSelectedFiles.Location = new Point(14, 133);
+            lblSelectedFiles.Margin = new Padding(4, 0, 4, 0);
+            lblSelectedFiles.Name = "lblSelectedFiles";
+            lblSelectedFiles.Size = new Size(68, 17);
+            lblSelectedFiles.TabIndex = 9;
+            lblSelectedFiles.Text = "未选择文件";
             // 
             // btnExtract
             // 
-            this.btnExtract.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnExtract.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnExtract.Location = new System.Drawing.Point(756, 119);
-            this.btnExtract.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.btnExtract.Name = "btnExtract";
-            this.btnExtract.Size = new System.Drawing.Size(88, 52);
-            this.btnExtract.TabIndex = 9;
-            this.btnExtract.Text = "解包";
-            this.btnExtract.UseVisualStyleBackColor = true;
-            this.btnExtract.Click += new System.EventHandler(this.btnExtract_Click);
+            btnExtract.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnExtract.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnExtract.Location = new Point(769, 154);
+            btnExtract.Margin = new Padding(4);
+            btnExtract.Name = "btnExtract";
+            btnExtract.Size = new Size(75, 52);
+            btnExtract.TabIndex = 10;
+            btnExtract.Text = "解包";
+            btnExtract.UseVisualStyleBackColor = true;
+            btnExtract.Click += btnExtract_Click;
             // 
             // progressBar
             // 
-            this.progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressBar.Location = new System.Drawing.Point(18, 119);
-            this.progressBar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(731, 30);
-            this.progressBar.TabIndex = 10;
-            this.progressBar.Visible = false;
+            progressBar.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            progressBar.Location = new Point(18, 165);
+            progressBar.Margin = new Padding(4);
+            progressBar.Name = "progressBar";
+            progressBar.Size = new Size(731, 30);
+            progressBar.TabIndex = 11;
+            progressBar.Visible = false;
             // 
             // rtbFileNameInfo
             // 
-            this.rtbFileNameInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.rtbFileNameInfo.Location = new System.Drawing.Point(18, 177);
-            this.rtbFileNameInfo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.rtbFileNameInfo.Name = "rtbFileNameInfo";
-            this.rtbFileNameInfo.Size = new System.Drawing.Size(835, 247);
-            this.rtbFileNameInfo.TabIndex = 11;
-            this.rtbFileNameInfo.Text = "";
+            rtbFileNameInfo.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            rtbFileNameInfo.Location = new Point(18, 225);
+            rtbFileNameInfo.Margin = new Padding(4);
+            rtbFileNameInfo.Name = "rtbFileNameInfo";
+            rtbFileNameInfo.Size = new Size(826, 200);
+            rtbFileNameInfo.TabIndex = 12;
+            rtbFileNameInfo.Text = "";
+            // 
+            // lblNoExtensionWarning
+            // 
+            lblNoExtensionWarning.AutoSize = true;
+            lblNoExtensionWarning.ForeColor = Color.Red;
+            lblNoExtensionWarning.Location = new Point(14, 88);
+            lblNoExtensionWarning.Margin = new Padding(4, 0, 4, 0);
+            lblNoExtensionWarning.Name = "lblNoExtensionWarning";
+            lblNoExtensionWarning.Size = new Size(0, 17);
+            lblNoExtensionWarning.TabIndex = 6;
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(857, 437);
-            this.Controls.Add(this.rtbFileNameInfo);
-            this.Controls.Add(this.progressBar);
-            this.Controls.Add(this.btnExtract);
-            this.Controls.Add(this.lblSelectedFiles);
-            this.Controls.Add(this.btnSelectFormat);
-            this.Controls.Add(this.lblAvailableFormats);
-            this.Controls.Add(this.btnSelectInputFolder);
-            this.Controls.Add(this.txtInputFolder);
-            this.Controls.Add(this.lblInputFolder);
-            this.Controls.Add(this.btnSelectBmsScript);
-            this.Controls.Add(this.txtBmsScript);
-            this.Controls.Add(this.lblBmsScript);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.MinimumSize = new System.Drawing.Size(581, 242);
-            this.Name = "MainForm";
-            this.Text = "quickbms批量解包工具";
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new SizeF(7F, 17F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(862, 437);
+            Controls.Add(rtbFileNameInfo);
+            Controls.Add(progressBar);
+            Controls.Add(btnExtract);
+            Controls.Add(lblSelectedFiles);
+            Controls.Add(btnSelectFormat);
+            Controls.Add(lblAvailableFormats);
+            Controls.Add(lblNoExtensionWarning);
+            Controls.Add(btnSelectInputFolder);
+            Controls.Add(txtInputFolder);
+            Controls.Add(lblInputFolder);
+            Controls.Add(btnSelectBmsScript);
+            Controls.Add(txtBmsScript);
+            Controls.Add(lblBmsScript);
+            Font = new Font("微软雅黑", 9F, FontStyle.Regular, GraphicsUnit.Point, 134);
+            Margin = new Padding(4);
+            MinimumSize = new Size(581, 242);
+            Name = "MainForm";
+            Text = "quickbms批量解包工具";
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -213,5 +220,6 @@
         private System.Windows.Forms.Button btnExtract;
         private System.Windows.Forms.ProgressBar progressBar;
         private System.Windows.Forms.RichTextBox rtbFileNameInfo;
+        private System.Windows.Forms.Label lblNoExtensionWarning;
     }
 }
