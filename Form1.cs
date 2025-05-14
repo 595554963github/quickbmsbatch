@@ -14,6 +14,7 @@ namespace QuickBMSBatchExtractor
         private string inputFolderPath = "";
         private List<string> selectedFiles = new List<string>();
         private List<string> availableFormats = new List<string>();
+        private bool hasNoExtensionFiles = false; 
 
         public MainForm()
         {
@@ -53,33 +54,54 @@ namespace QuickBMSBatchExtractor
             try
             {
                 availableFormats.Clear();
+                hasNoExtensionFiles = false;
                 var extensions = new HashSet<string>();
 
-                foreach (string file in Directory.EnumerateFiles(folder, "*.*", SearchOption.AllDirectories))
+                foreach (string file in Directory.EnumerateFiles(folder, "*", SearchOption.AllDirectories))
                 {
                     string ext = Path.GetExtension(file).ToLower();
-                    if (!string.IsNullOrEmpty(ext))
+                    if (string.IsNullOrEmpty(ext))
+                    {
+                        hasNoExtensionFiles = true;
+                    }
+                    else
                     {
                         extensions.Add(ext);
                     }
                 }
 
                 availableFormats = extensions.OrderBy(x => x).ToList();
-                if (availableFormats.Count > 0)
-                {
-                    lblAvailableFormats.Text = $"检测到格式: {string.Join(", ", availableFormats)}";
-                    AppendToRichTextBox($"文件夹扫描完成，找到以下格式: {string.Join(", ", availableFormats)}\n");
-                }
-                else
-                {
-                    lblAvailableFormats.Text = "文件夹中没有文件";
-                    AppendToRichTextBox("文件夹中没有找到任何文件\n");
-                }
+                UpdateFormatDisplay();
             }
             catch (Exception ex)
             {
                 AppendToRichTextBox($"扫描文件夹时出错: {ex.Message}\n");
             }
+        }
+
+        private void UpdateFormatDisplay()
+        {
+            string displayText = "检测到格式: ";
+            if (hasNoExtensionFiles)
+            {
+                displayText += "无后缀文件, ";
+                lblAvailableFormats.ForeColor = Color.Red;
+            }
+            else
+            {
+                lblAvailableFormats.ForeColor = Color.Black;
+            }
+
+            if (availableFormats.Count > 0)
+            {
+                displayText += string.Join(", ", availableFormats);
+            }
+            else if (!hasNoExtensionFiles)
+            {
+                displayText = "文件夹中没有文件";
+            }
+
+            lblAvailableFormats.Text = displayText.TrimEnd(',', ' ');
         }
 
         private void btnSelectFormat_Click(object sender, EventArgs e)
@@ -90,18 +112,18 @@ namespace QuickBMSBatchExtractor
                 return;
             }
 
-            if (availableFormats.Count == 0)
+            List<string> fileTypes = new List<string>();
+            if (hasNoExtensionFiles)
             {
-                AppendToRichTextBox("文件夹中没有可用的文件格式\n");
-                return;
+                fileTypes.Add("无后缀文件|*.*"); 
             }
 
-            var fileTypes = new List<string>();
             foreach (string format in availableFormats)
             {
-                string extName = format.Substring(1).ToUpper() + " files";
+                string extName = format.Substring(1).ToUpper() + " Files";
                 fileTypes.Add($"{extName}|*{format}");
             }
+
             fileTypes.Add("所有文件|*.*");
 
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
@@ -114,7 +136,7 @@ namespace QuickBMSBatchExtractor
                 {
                     selectedFiles = openFileDialog.FileNames.ToList();
                     UpdateSelectedFilesLabel();
-                    AppendToRichTextBox($"已选择 {selectedFiles.Count} 个 {Path.GetExtension(selectedFiles.First())} 文件\n");
+                    AppendToRichTextBox($"已选择 {selectedFiles.Count} 个文件（包含无后缀文件: {selectedFiles.Any(f => string.IsNullOrEmpty(Path.GetExtension(f)))}）\n");
                 }
             }
         }
@@ -123,8 +145,10 @@ namespace QuickBMSBatchExtractor
         {
             if (selectedFiles.Count > 0)
             {
-                string ext = Path.GetExtension(selectedFiles[0]);
-                lblSelectedFiles.Text = $"已选择 {selectedFiles.Count} 个 {ext} 文件";
+                bool hasNoExt = selectedFiles.Any(f => string.IsNullOrEmpty(Path.GetExtension(f)));
+                lblSelectedFiles.Text = hasNoExt ?
+                    $"已选择 {selectedFiles.Count} 个文件（包含无后缀文件）" :
+                    $"已选择 {selectedFiles.Count} 个 {Path.GetExtension(selectedFiles[0])} 文件";
             }
             else
             {
@@ -134,8 +158,15 @@ namespace QuickBMSBatchExtractor
 
         private string GetQuickBMSExecutable(string filePath)
         {
-            FileInfo fileInfo = new FileInfo(filePath);
-            return fileInfo.Length > 3L * 1024 * 1024 * 1024 ? "quickbms_4gb_files.exe" : "quickbms.exe";
+            try
+            {
+                FileInfo fileInfo = new FileInfo(filePath);
+                return fileInfo.Length > 3L * 1024 * 1024 * 1024 ? "quickbms_4gb_files.exe" : "quickbms.exe";
+            }
+            catch
+            {
+                return "quickbms.exe";
+            }
         }
 
         private void AppendToRichTextBox(string text)
@@ -163,13 +194,20 @@ namespace QuickBMSBatchExtractor
                 {
                     try
                     {
+                        if (!File.Exists(filePath))
+                        {
+                            AppendToRichTextBox($"跳过不存在的文件: {Path.GetFileName(filePath)}\n");
+                            continue;
+                        }
+
                         AppendToRichTextBox($"正在处理: {Path.GetFileName(filePath)}\n");
 
                         string quickbmsExecutable = GetQuickBMSExecutable(filePath);
+
                         string? directoryName = Path.GetDirectoryName(filePath);
-                        if (directoryName == null)
+                        if (string.IsNullOrEmpty(directoryName))
                         {
-                            AppendToRichTextBox($"无法获取文件夹路径: {filePath}\n");
+                            AppendToRichTextBox($"无法获取文件目录: {filePath}\n");
                             continue;
                         }
 
@@ -177,34 +215,30 @@ namespace QuickBMSBatchExtractor
                             directoryName,
                             Path.GetFileNameWithoutExtension(filePath));
 
-                        if (!Directory.Exists(outputFolder))
-                        {
-                            Directory.CreateDirectory(outputFolder);
-                        }
+                        Directory.CreateDirectory(outputFolder);
 
-                        string fileExtension = "*" + Path.GetExtension(filePath);
+                        string fileExtension = Path.GetExtension(filePath) ?? "*";
+                        string arguments = $"-o -F \"*{fileExtension}\" \"{bmsScript}\" \"{filePath}\" \"{outputFolder}\"";
+
                         ProcessStartInfo startInfo = new ProcessStartInfo
                         {
                             FileName = quickbmsExecutable,
-                            Arguments = $"-o -F \"{fileExtension}\" \"{bmsScript}\" \"{filePath}\" \"{outputFolder}\"",
+                            Arguments = arguments,
                             UseShellExecute = false,
                             CreateNoWindow = true
                         };
 
-                        using (Process? process = Process.Start(startInfo))
+                        using Process? process = Process.Start(startInfo);
+                        if (process == null)
                         {
-                            if (process == null)
-                            {
-                                AppendToRichTextBox($"启动进程失败，处理文件 {filePath} 时出错\n");
-                                continue;
-                            }
-                            process.WaitForExit();
+                            AppendToRichTextBox($"无法启动解包进程: {quickbmsExecutable}\n");
+                            continue;
                         }
 
-                        currentFiles++;
-                        int percentage = (int)((double)currentFiles / totalFiles * 100);
-                        progress.Report(percentage);
+                        process.WaitForExit();
 
+                        currentFiles++;
+                        progress.Report((int)((double)currentFiles / totalFiles * 100));
                         AppendToRichTextBox($"完成: {Path.GetFileName(filePath)}\n");
                     }
                     catch (Exception ex)
@@ -230,19 +264,14 @@ namespace QuickBMSBatchExtractor
             }
 
             btnExtract.Enabled = false;
-            progressBar.Value = 0;
             progressBar.Visible = true;
+            progressBar.Value = 0;
             AppendToRichTextBox($"开始解包 {selectedFiles.Count} 个文件...\n");
 
             try
             {
-                var progress = new Progress<int>(percent =>
-                {
-                    progressBar.Value = percent;
-                });
-
+                var progress = new Progress<int>(percent => progressBar.Value = percent);
                 await ExtractFilesAsync(bmsScriptPath, selectedFiles, progress);
-
                 AppendToRichTextBox("解包完成!\n");
             }
             catch (Exception ex)
@@ -252,36 +281,43 @@ namespace QuickBMSBatchExtractor
             finally
             {
                 btnExtract.Enabled = true;
+                progressBar.Visible = false;
             }
         }
 
         private void txtInputFolder_TextChanged(object? sender, EventArgs e)
         {
             string inputPath = txtInputFolder.Text;
-            if (!string.IsNullOrEmpty(inputPath) && Directory.Exists(inputPath))
+            if (!string.IsNullOrEmpty(inputPath))
             {
-                inputFolderPath = inputPath;
-                ScanFolderFormats(inputPath);
-            }
-            else if (!string.IsNullOrEmpty(inputPath) && !Directory.Exists(inputPath))
-            {
-                AppendToRichTextBox("输入的文件夹路径不存在，请检查后重新输入或选择。\n");
-                txtInputFolder.Text = "";
+                if (Directory.Exists(inputPath))
+                {
+                    inputFolderPath = inputPath;
+                    ScanFolderFormats(inputPath);
+                }
+                else
+                {
+                    AppendToRichTextBox("输入的文件夹路径不存在，请检查后重新输入或选择。\n");
+                    txtInputFolder.Text = "";
+                }
             }
         }
 
         private void txtBmsScript_TextChanged(object? sender, EventArgs e)
         {
             string scriptPath = txtBmsScript.Text;
-            if (!string.IsNullOrEmpty(scriptPath) && File.Exists(scriptPath) && scriptPath.EndsWith(".bms", StringComparison.OrdinalIgnoreCase))
+            if (!string.IsNullOrEmpty(scriptPath))
             {
-                bmsScriptPath = scriptPath;
-                AppendToRichTextBox($"已设置BMS脚本: {Path.GetFileName(scriptPath)}\n");
-            }
-            else if (!string.IsNullOrEmpty(scriptPath) && (!File.Exists(scriptPath) || !scriptPath.EndsWith(".bms", StringComparison.OrdinalIgnoreCase)))
-            {
-                AppendToRichTextBox("输入的BMS脚本路径不存在或不是有效的BMS文件，请检查后重新输入或选择。\n");
-                bmsScriptPath = "";
+                if (File.Exists(scriptPath) && scriptPath.EndsWith(".bms", StringComparison.OrdinalIgnoreCase))
+                {
+                    bmsScriptPath = scriptPath;
+                    AppendToRichTextBox($"已设置BMS脚本: {Path.GetFileName(scriptPath)}\n");
+                }
+                else
+                {
+                    AppendToRichTextBox("输入的BMS脚本路径不存在或不是有效的BMS文件，请检查后重新输入或选择。\n");
+                    bmsScriptPath = "";
+                }
             }
             else
             {
